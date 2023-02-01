@@ -77,12 +77,7 @@ function SnakeGame() {
   const bodyCrash = () => {
     let snake = [...snakeDots];
     let head = snake[snake.length - 1];
-    snake.pop()
-    snake.map((dot) => {
-      if (head[0] === dot[0] && head[1] === dot[1]) {
-        onGameOver();
-      }
-    });
+    
   };
 
   const onGameOver = () => {
