@@ -63,8 +63,7 @@ function SnakeGame() {
     }
     if (direction) {
       dots.push(head); // push the latest element at the end
-      // dots.shift(); // remove previous element from index One because otherwise it added into the that division
-      setSnakeDots([...dots]);
+       setSnakeDots([...dots]);
     }
   }
 
