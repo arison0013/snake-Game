@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import Food from './Food/Food';
 import "./Snake.css"
 import Snake from './Snake/Snake'
@@ -91,13 +91,6 @@ function SnakeGame() {
     if (head[0] === myfood[0] && head[1] === myfood[1]) {
       setFood(getRandomCoordinates());
     }
-  };
-
-  const enLargeSnake = async () => {
-    let newSnake = [...snakeDots];
-
-    newSnake.unshift([]);
-    setSnakeDots(newSnake);
   };
 
   const onGameOver = () => {
