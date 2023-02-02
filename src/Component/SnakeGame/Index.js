@@ -9,8 +9,8 @@ function SnakeGame() {
   const getRandomCoordinates = () => {
     let min = 1;
     let max = 98;
-    let x = Math.floor((Math.random() * (max - min + 1) + min) / 2) * 2;
-    let y = Math.floor((Math.random() * (max - min + 1) + min) / 2) * 2;
+    let x = Math.floor((Math.random() * (max - min + 1) + min)/2) * 2 ;
+    let y = Math.floor((Math.random() * (max - min + 1) + min)/2) * 2 ;
     return [x, y];
   };
   const [food, setFood] = useState(getRandomCoordinates);
@@ -24,14 +24,13 @@ function SnakeGame() {
 
   useEffect(() => {
     document.addEventListener("keydown", onKeyDown); // for geeting the key while up down left rigth provide us all keyboard events
-    setTimeout(() => moveSnake(snakeDots), speed)
+    setTimeout(() => moveSnake(snakeDots,checkIfEat()), speed)
     bodyCrash();
     isBorderCrash();
     checkIfEat();
   }, [snakeDots]);
 
   const onKeyDown = (e) => {
-    console.log("object")
     // console.log(e)
     if (e.keyCode === 38) {
       setDirection("Up")
@@ -48,8 +47,8 @@ function SnakeGame() {
   }
 
 
-  const moveSnake = (snakeDots) => {
-
+  const moveSnake = (snakeDots,eat) => {
+    console.log("eat",eat)
     let dots = [...snakeDots]
     let head = dots[dots.length - 1]
     if (direction === "Up") {
@@ -66,8 +65,15 @@ function SnakeGame() {
     }
     if (direction) {
       dots.push(head); // push the latest element at the end
-      dots.shift();
-      setSnakeDots([...dots]);
+      if(eat){
+        setFood(getRandomCoordinates())
+        setSnakeDots([...dots]);
+      }else{
+        dots.shift()
+        setSnakeDots([...dots]);
+      }
+     
+      
     }
   }
 
@@ -84,15 +90,14 @@ function SnakeGame() {
 
   };
 
-  const checkIfEat = async () => {
+  const checkIfEat =  () => {
     let head = snakeDots[snakeDots.length - 1];
     let myfood = food;
     console.log('myfood', myfood, 'head', head, 'snakeDots', snakeDots)
-    if (head[0] === myfood[0] && head[1] === myfood[1]) {
-      setFood(getRandomCoordinates());
-    }
+    return head[0] === myfood[0] && head[1] === myfood[1]
   };
 
+  
   const onGameOver = () => {
     setSnakeDots([
       [0, 0],
