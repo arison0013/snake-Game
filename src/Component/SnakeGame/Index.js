@@ -9,8 +9,8 @@ function SnakeGame() {
   const getRandomCoordinates = () => {
     let min = 1;
     let max = 98;
-    let x = Math.floor((Math.random() * (max - min + 1) + min) ) ;
-    let y = Math.floor((Math.random() * (max - min + 1) + min) ) ;
+    let x = Math.floor((Math.random() * (max - min + 1) + min) / 2) * 2;
+    let y = Math.floor((Math.random() * (max - min + 1) + min) / 2) * 2;
     return [x, y];
   };
   const [food, setFood] = useState(getRandomCoordinates);
@@ -27,9 +27,11 @@ function SnakeGame() {
     setTimeout(() => moveSnake(snakeDots), speed)
     bodyCrash();
     isBorderCrash();
+    checkIfEat();
   }, [snakeDots]);
 
   const onKeyDown = (e) => {
+    console.log("object")
     // console.log(e)
     if (e.keyCode === 38) {
       setDirection("Up")
@@ -47,6 +49,7 @@ function SnakeGame() {
 
 
   const moveSnake = (snakeDots) => {
+
     let dots = [...snakeDots]
     let head = dots[dots.length - 1]
     if (direction === "Up") {
@@ -64,7 +67,7 @@ function SnakeGame() {
     if (direction) {
       dots.push(head); // push the latest element at the end
       dots.shift();
-       setSnakeDots([...dots]);
+      setSnakeDots([...dots]);
     }
   }
 
@@ -78,7 +81,23 @@ function SnakeGame() {
   const bodyCrash = () => {
     let snake = [...snakeDots];
     let head = snake[snake.length - 1];
-    
+
+  };
+
+  const checkIfEat = async () => {
+    let head = snakeDots[snakeDots.length - 1];
+    let myfood = food;
+    console.log('myfood', myfood, 'head', head, 'snakeDots', snakeDots)
+    if (head[0] === myfood[0] && head[1] === myfood[1]) {
+      setFood(getRandomCoordinates());
+    }
+  };
+
+  const enLargeSnake = async () => {
+    let newSnake = [...snakeDots];
+
+    newSnake.unshift([]);
+    setSnakeDots(newSnake);
   };
 
   const onGameOver = () => {
