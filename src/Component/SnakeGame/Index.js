@@ -63,6 +63,7 @@ function SnakeGame() {
     }
     if (direction) {
       dots.push(head); // push the latest element at the end
+      dots.shift();
        setSnakeDots([...dots]);
     }
   }
