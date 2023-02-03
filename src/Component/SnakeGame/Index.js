@@ -9,13 +9,14 @@ function SnakeGame() {
   const getRandomCoordinates = () => {
     let min = 1;
     let max = 98;
-    let x = Math.floor((Math.random() * (max - min + 1) + min)/2) * 2 ;
-    let y = Math.floor((Math.random() * (max - min + 1) + min)/2) * 2 ;
+    let x = Math.floor((Math.random() * (max - min + 1) + min) /2) * 2 ;
+    let y = Math.floor((Math.random() * (max - min + 1) + min) /2) * 2 ;
     return [x, y];
   };
   const [food, setFood] = useState(getRandomCoordinates);
   const [speed, setSpeed] = useState(300);
   const [direction, setDirection] = useState("Right");
+  const [score, setScore] = useState(0);
   const [snakeDots, setSnakeDots] = useState([
     [0, 0],
     [2, 0],
@@ -67,6 +68,7 @@ function SnakeGame() {
       dots.push(head); // push the latest element at the end
       if(eat){
         setFood(getRandomCoordinates())
+        setScore(score + 2);
         setSnakeDots([...dots]);
       }else{
         dots.shift()
@@ -93,7 +95,6 @@ function SnakeGame() {
   const checkIfEat =  () => {
     let head = snakeDots[snakeDots.length - 1];
     let myfood = food;
-    console.log('myfood', myfood, 'head', head, 'snakeDots', snakeDots)
     return head[0] === myfood[0] && head[1] === myfood[1]
   };
 
@@ -105,12 +106,16 @@ function SnakeGame() {
     ]);
     setDirection(null);
     setFood(getRandomCoordinates());
+    setScore(0);
   };
   return (
+    <>
+    <div className='score-box'> Score : {score}</div>
     <div className="game-area">
       <Snake snakeDots={snakeDots} />
       <Food dot={food} />
     </div>
+    </>
   );
 };
 
